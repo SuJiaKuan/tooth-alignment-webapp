@@ -1,6 +1,8 @@
-import { useDropzone } from 'react-dropzone';
 import { useCallback } from 'react';
 
+import { useDropzone } from 'react-dropzone';
+
+import MovementsTable from './MovementsTable'
 import './App.css';
 
 function App() {
@@ -29,6 +31,8 @@ function App() {
           <input {...getInputProps()} />
             <p style={dropzoneStyle}>Click to select your stl files</p>
         </div>
+        <h3>Movements Table</h3>
+        <MovementsTable />
       </header>
     </div>
   );
