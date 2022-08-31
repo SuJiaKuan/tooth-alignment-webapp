@@ -1,22 +1,34 @@
-import logo from './logo.svg';
+import { useDropzone } from 'react-dropzone';
+import { useCallback } from 'react';
+
 import './App.css';
 
 function App() {
+  const onDropFiles = useCallback(files => {
+    // TODO
+    console.log(files)
+  }, []);
+
+  const dropzoneStyle = {
+    cursor: "pointer", // TODO
+  }
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    noDrag: true,
+    noClick: false, // TODO
+    noKeyboard: false, // TODO
+    onDrop: onDropFiles,
+    maxFiles: 2,
+    accept: "model/stl, application/sla", // TODO: not working?
+  });
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div {...getRootProps()}>
+          <input {...getInputProps()} />
+            <p style={dropzoneStyle}>Click to select your stl files</p>
+        </div>
       </header>
     </div>
   );
