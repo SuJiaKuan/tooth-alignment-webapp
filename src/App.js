@@ -1,14 +1,19 @@
-import { useCallback } from 'react';
+import { useCallback, useState, Suspense } from 'react';
 
 import { useDropzone } from 'react-dropzone';
+import {Canvas} from "@react-three/fiber";
 
 import MovementsTable from './MovementsTable'
+import Viewer from './Viewer';
 import './App.css';
 
 function App() {
+  const [ urls, setUrls ] = useState([]);
+
   const onDropFiles = useCallback(files => {
-    // TODO
-    console.log(files)
+    const urls = files.map(file => URL.createObjectURL(files[0]));
+
+    setUrls(urls);
   }, []);
 
   const dropzoneStyle = {
@@ -31,6 +36,14 @@ function App() {
           <input {...getInputProps()} />
             <p style={dropzoneStyle}>Click to select your stl files</p>
         </div>
+        {
+          urls.length > 0 &&
+          <Suspense fallback={null}>
+             <Canvas camera={{ position: [0, -10, 100] }}>
+               <Viewer urls={urls} />
+             </Canvas>
+          </Suspense>
+        }
         <h3>Movements Table</h3>
         <MovementsTable />
       </header>
