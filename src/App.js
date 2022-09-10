@@ -1,10 +1,9 @@
-import { useCallback, useState, Suspense } from 'react';
+import { useCallback, useState } from 'react';
 
 import { useDropzone } from 'react-dropzone';
-import {Canvas} from "@react-three/fiber";
 
 import MovementsTable from './MovementsTable'
-import Viewer from './Viewer';
+import Viewer3D from './Viewer3D';
 import './App.css';
 
 function App() {
@@ -38,11 +37,7 @@ function App() {
         </div>
         {
           urls.length > 0 &&
-          <Suspense fallback={null}>
-             <Canvas camera={{ position: [0, -10, 100] }}>
-               <Viewer urls={urls} />
-             </Canvas>
-          </Suspense>
+          <Viewer3D urls={urls} />
         }
         <h3>Movements Table</h3>
         <MovementsTable />
