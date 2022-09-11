@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 
-import { useLoader, useThree, useFrame } from "@react-three/fiber";
+import { useLoader, useThree } from "@react-three/fiber";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader";
 import { OrbitControls } from "@react-three/drei";
-import { Box3 } from "three";
 
 import Camera from "./Camera";
 import Model3D from "./Model3D";
@@ -32,8 +31,6 @@ const SceneSetup = ({
 }) => {
   const { camera } = useThree();
 
-  const [mesh, setMesh] = useState();
-  const [group, setGroup] = useState();
   const [meshDims, setMeshDims] = useState({
     width: 0,
     height: 0,
@@ -48,10 +45,7 @@ const SceneSetup = ({
     setSceneReady(false);
   }, [urls])
 
-  function onLoaded(dims, mesh, group) {
-    setMesh(mesh);
-    setGroup(group);
-
+  function onLoaded(dims) {
     const { width, length, height, boundingRadius } = dims;
     setMeshDims(dims);
 
@@ -64,15 +58,6 @@ const SceneSetup = ({
     // let the three.js render loop place things
     setTimeout(() => setSceneReady(true), 100);
   }
-
-  useFrame(({ scene }) => {
-    if (!sceneReady || !mesh || !group) return;
-
-    const bbox = new Box3().setFromObject(mesh);
-    const height = bbox.max.z - bbox.min.z;
-
-    group.position.z = height / 2;
-  })
 
   const cameraPosition = [
     -.5 * CAMERA_OFFSET * meshDims.boundingRadius / POSITION_FACTOR,
