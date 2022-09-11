@@ -40,7 +40,6 @@ const SceneSetup = ({
     length: 0,
     boundingRadius: 0,
   });
-  const [cameraTarget, setCameraTarget] = useState([0, 0, 0]);
   const [sceneReady, setSceneReady] = useState(false);
 
   const geometry = useLoader(STLLoader, urls[0]);
@@ -62,14 +61,12 @@ const SceneSetup = ({
     const target = [positionX | width / 2, positionY | length / 2, height / 2];
     camera.lookAt(...target);
 
-    setCameraTarget(target);
-
     // let the three.js render loop place things
     setTimeout(() => setSceneReady(true), 100);
   }
 
   useFrame(({ scene }) => {
-    if (!sceneReady || !geometry.boundingSphere || !mesh.current || !group.current) return;
+    if (!sceneReady || !mesh || !group) return;
 
     const bbox = new Box3().setFromObject(mesh);
     const height = bbox.max.z - bbox.min.z;
@@ -114,7 +111,7 @@ const SceneSetup = ({
       />
       {
         sceneReady &&
-        <OrbitControls target={cameraTarget}/>
+        <OrbitControls/>
       }
     </>
   );
