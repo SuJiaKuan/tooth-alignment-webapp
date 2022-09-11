@@ -37,7 +37,7 @@ function App() {
         </div>
         {
           urls.length > 0 &&
-          <Viewer3D urls={urls} />
+          <Viewer3D urls={urls} style={{width: "100vw", height: "70vh"}}/>
         }
         <h3>Movements Table</h3>
         <MovementsTable />

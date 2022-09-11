@@ -5,9 +5,9 @@ import { PCFSoftShadowMap } from "three";
 
 import SceneSetup from "./SceneSetup";
 
-const Viewer3D = ({ urls }) => {
+const Viewer3D = ({ urls, style = {} }) => {
   return (
-    <div>
+    <div style={style}>
       <Suspense fallback={null}>
         <Canvas
           shadows
