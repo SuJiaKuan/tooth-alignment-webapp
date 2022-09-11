@@ -39,7 +39,7 @@ const SceneSetup = ({
   });
   const [sceneReady, setSceneReady] = useState(false);
 
-  const geometry = useLoader(STLLoader, urls[0]);
+  const geometries = useLoader(STLLoader, urls);
 
   useEffect(() => {
     setSceneReady(false);
@@ -75,7 +75,8 @@ const SceneSetup = ({
     <>
       <Camera position={cameraPosition}/>
       <Model3D
-        geometry={geometry}
+        geometries={geometries}
+        urls={urls}
         position={modelPosition}
         rotation={[rotationX, rotationY, rotationZ]}
         scale={scale}
@@ -86,7 +87,7 @@ const SceneSetup = ({
         width={gridWidth || gridLength}
         length={gridLength || gridWidth}
         visible={sceneReady}
-        noShadow={false}
+        noShadow={true}
         offset={FLOOR_DISTANCE}
       />
       <Lights
