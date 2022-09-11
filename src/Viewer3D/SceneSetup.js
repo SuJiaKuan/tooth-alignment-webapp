@@ -7,11 +7,13 @@ import { Box3 } from "three";
 
 import Camera from "./Camera";
 import Model3D from "./Model3D";
+import Floor from "./Floor";
 import Lights from "./Lights";
 
 const CAMERA_OFFSET = 200
 const POSITION_FACTOR = 140
 const LIGHT_DISTANCE = 350
+const FLOOR_DISTANCE = .4
 
 const SceneSetup = ({
   urls,
@@ -23,16 +25,20 @@ const SceneSetup = ({
     rotationY = 0,
     rotationZ = 0,
   } = {},
+  floorProps: {
+    gridWidth = 0,
+    gridLength = 0,
+  } = {},
 }) => {
   const { camera } = useThree();
 
   const [mesh, setMesh] = useState();
   const [group, setGroup] = useState();
   const [meshDims, setMeshDims] = useState({
-      width: 0,
-      height: 0,
-      length: 0,
-      boundingRadius: 0,
+    width: 0,
+    height: 0,
+    length: 0,
+    boundingRadius: 0,
   });
   const [cameraTarget, setCameraTarget] = useState([0, 0, 0]);
   const [sceneReady, setSceneReady] = useState(false);
@@ -93,6 +99,13 @@ const SceneSetup = ({
         scale={scale}
         visible={sceneReady}
         onLoaded={onLoaded}
+      />
+      <Floor
+        width={gridWidth || gridLength}
+        length={gridLength || gridWidth}
+        visible={sceneReady}
+        noShadow={false}
+        offset={FLOOR_DISTANCE}
       />
       <Lights
         distance={LIGHT_DISTANCE}
