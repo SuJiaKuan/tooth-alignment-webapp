@@ -30,37 +30,12 @@ const Model3D = ({
       return;
     }
 
-    const minXArr = [];
-    const minYArr = [];
-    const minZArr = [];
-    const maxXArr = [];
-    const maxYArr = [];
-    const maxZArr = [];
+    const mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries, true);
 
-    meshes.forEach((mesh, index) => {
-      // Set correct property on geometry.boundingBox
-      new Box3().setFromObject(mesh.current);
+    mergedGeometry.computeBoundingBox();
+    mergedGeometry.computeBoundingSphere();
 
-      const { min, max } = geometries[index].boundingBox;
-
-      minXArr.push(min.x);
-      minYArr.push(min.y);
-      minZArr.push(min.z);
-      maxXArr.push(max.x);
-      maxYArr.push(max.y);
-      maxZArr.push(max.z);
-    });
-
-    const min = {
-      x: Math.min(...minXArr),
-      y: Math.min(...minYArr),
-      z: Math.min(...minZArr),
-    };
-    const max = {
-      x: Math.max(...maxXArr),
-      y: Math.max(...maxYArr),
-      z: Math.max(...maxZArr),
-    };
+    const { min, max } = mergedGeometry.boundingBox;
     const dims = {
       width: max.x - min.x,
       length: max.y - min.y,
@@ -75,10 +50,6 @@ const Model3D = ({
         -min.z - dims.height / 2,
       ));
     }
-
-    const mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries, true);
-
-    mergedGeometry.computeBoundingSphere();
 
     onLoaded({
       ...dims,
