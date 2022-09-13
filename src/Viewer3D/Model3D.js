@@ -2,6 +2,7 @@ import { useState, useEffect, createRef } from 'react';
 
 import { useFrame } from "@react-three/fiber";
 import { Box3, Matrix4, DoubleSide } from "three";
+import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils";
 
 const Model3D = ({
   geometries,
@@ -75,10 +76,14 @@ const Model3D = ({
       ));
     }
 
+    const mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries, true);
+
+    mergedGeometry.computeBoundingSphere();
+
     onLoaded({
       ...dims,
       // TODO (Jia-Kuan, Su): Re-Calculate the bounding sphere radius.
-      boundingRadius: geometries[0].boundingSphere.radius,
+      boundingRadius: mergedGeometry.boundingSphere.radius,
     });
     setLoading(false);
   });
