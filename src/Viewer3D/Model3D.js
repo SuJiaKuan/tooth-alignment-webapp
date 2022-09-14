@@ -17,20 +17,34 @@ const Model3D = ({
   const [meshes, setMeshes] = useState([]);
 
   useEffect(() => {
+    setMeshes((meshes) =>
+      Array(geometries.length)
+        .fill()
+        .map((_, i) => meshes[i] || createRef()),
+    )
     setLoading(true)
-    setMeshes(urls.map(() => createRef()))
   }, [urls])
 
   useFrame(() => {
     if (
       !loading ||
-      geometries.every((geometry) => !geometry.boundingSphere) ||
-      meshes.every((mesh) => !mesh.current)
+      geometries.some((geometry) => !geometry.boundingSphere) ||
+      meshes.some((mesh) => !mesh.current)
     ) {
       return;
     }
 
-    const mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries, true);
+    // XXX (Jia-Kuan, Su):
+    // Tricky way to prevent attributes inconsistent problem for geomtries merging.
+    // https://discourse.threejs.org/t/using-mergebuffergeometries-with-geometries-that-have-different-attributes/19166
+    const geometries_ = geometries.map((geometry, index) => {
+      const geometry_ = geometry.clone();
+
+      delete geometry_.attributes.color;
+
+      return geometry_;
+    });
+    const mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries_, true);
 
     mergedGeometry.computeBoundingBox();
     mergedGeometry.computeBoundingSphere();

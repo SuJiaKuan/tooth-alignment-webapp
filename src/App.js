@@ -10,7 +10,7 @@ function App() {
   const [ urls, setUrls ] = useState([]);
 
   const onDropFiles = useCallback(files => {
-    const urls = files.map(file => URL.createObjectURL(files[0]));
+    const urls = files.map(file => URL.createObjectURL(file));
 
     setUrls(urls);
   }, []);
