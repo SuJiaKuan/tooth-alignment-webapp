@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { useLoader, useThree } from "@react-three/fiber";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader";
@@ -16,6 +16,8 @@ const FLOOR_DISTANCE = .4
 
 const SceneSetup = ({
   urls,
+  sceneReady,
+  setToReady,
   modelProps: {
     scale = 1,
     positionX = 0,
@@ -37,13 +39,8 @@ const SceneSetup = ({
     length: 0,
     boundingRadius: 0,
   });
-  const [sceneReady, setSceneReady] = useState(false);
 
   const geometries = useLoader(STLLoader, urls);
-
-  useEffect(() => {
-    setSceneReady(false);
-  }, [urls])
 
   function onLoaded(dims) {
     const { width, length, height, boundingRadius } = dims;
@@ -56,7 +53,7 @@ const SceneSetup = ({
     camera.lookAt(...target);
 
     // let the three.js render loop place things
-    setTimeout(() => setSceneReady(true), 100);
+    setTimeout(() => setToReady(), 100);
   }
 
   const cameraPosition = [
