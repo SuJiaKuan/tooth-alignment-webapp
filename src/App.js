@@ -20,14 +20,8 @@ function App() {
     setUrls(urls);
   }, []);
 
-  const dropzoneStyle = {
-    cursor: "pointer", // TODO
-  }
-
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    noDrag: true,
-    noClick: false, // TODO
-    noKeyboard: false, // TODO
+    noKeyboard: false,
     onDrop: onDropFiles,
     maxFiles: 2,
     accept: "model/stl, application/sla", // TODO: not working?
@@ -63,13 +57,26 @@ function App() {
         </AppBar>
       </Box>
       <header className="App-header">
-        <div {...getRootProps()}>
-          <input {...getInputProps()} />
-            <p style={dropzoneStyle}>Click to select your stl files</p>
-        </div>
+        {
+          urls.length == 0 &&
+          <div
+            style={{
+              cursor: "pointer",
+              width: "90vw",
+              height: "80vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            {...getRootProps()}
+          >
+            <input {...getInputProps()} />
+            <p>Upload Your Files</p>
+          </div>
+        }
         {
           urls.length > 0 &&
-          <Viewer3D urls={urls} style={{width: "100vw", height: "70vh"}}/>
+          <Viewer3D urls={urls} style={{width: "90vw", height: "80vh"}}/>
         }
         <h3>Movements Table</h3>
         <MovementsTable />
