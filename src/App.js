@@ -62,46 +62,46 @@ function App() {
 
   return (
     <div className="App">
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar variant="dense">
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                flexGrow: 1,
-                display: { xs: 'none', md: 'flex' },
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              AGAI x 創兆
-            </Typography>
-            <Button
-              variant="contained"
-              disabled={step !== STEP.PREVIEW}
-              onClick={onClickAlignmentButton}
-            >
-              RUN AI
-            </Button>
-            <Button variant="text" disabled></Button>
-            <Button
-              variant="contained"
-              disabled={step !== STEP.ALIGNMENT}
-              onClick={onClickMovementsButton}
-            >
-              SHOW MOVEMENTS
-            </Button>
-          </Toolbar>
-        </AppBar>
-      </Box>
       <header className="App-header">
+        <Box sx={{ flexGrow: 1, width: "100%" }}>
+          <AppBar position="static">
+            <Toolbar variant="dense">
+              <Typography
+                variant="h6"
+                noWrap
+                component="a"
+                href="/"
+                sx={{
+                  mr: 2,
+                  flexGrow: 1,
+                  display: { xs: 'none', md: 'flex' },
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  letterSpacing: '.3rem',
+                  color: 'inherit',
+                  textDecoration: 'none',
+                }}
+              >
+                AGAI x 創兆
+              </Typography>
+              <Button
+                variant="contained"
+                disabled={step !== STEP.PREVIEW}
+                onClick={onClickAlignmentButton}
+              >
+                RUN AI
+              </Button>
+              <Button variant="text" disabled></Button>
+              <Button
+                variant="contained"
+                disabled={step !== STEP.ALIGNMENT}
+                onClick={onClickMovementsButton}
+              >
+                SHOW MOVEMENTS
+              </Button>
+            </Toolbar>
+          </AppBar>
+        </Box>
         {
           step === STEP.CHOOSE_FILES &&
           <div
