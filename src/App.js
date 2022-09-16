@@ -11,13 +11,21 @@ import MovementsTable from './MovementsTable'
 import Viewer3D from './Viewer3D';
 import './App.css';
 
+const STEP = {
+  CHOOSE_FILES: "choose files",
+  PREVIEW: "preview",
+  ALIGNMENT: "alignment",
+};
+
 function App() {
   const [ urls, setUrls ] = useState([]);
+  const [ step, setStep ] = useState(STEP.CHOOSE_FILES);
 
   const onDropFiles = useCallback(files => {
     const urls = files.map(file => URL.createObjectURL(file));
 
     setUrls(urls);
+    setStep(STEP.PREVIEW);
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -26,6 +34,20 @@ function App() {
     maxFiles: 2,
     accept: "model/stl, application/sla", // TODO: not working?
   });
+
+  const onClickAlignmentButton = () => {
+    // TODO
+    setStep(STEP.ALIGNMENT);
+  };
+
+  const fullPanelStyle = {
+    width: "90vw",
+    height: "80vh",
+  };
+  const halfPanelStyle = {
+    width: "45vw",
+    height: "80vh",
+  };
 
   return (
     <div className="App">
@@ -50,23 +72,33 @@ function App() {
             >
               AGAI x 創兆
             </Typography>
-            <Button variant="contained" disabled>RUN AI</Button>
+            <Button
+              variant="contained"
+              disabled={step !== STEP.PREVIEW}
+              onClick={onClickAlignmentButton}
+            >
+              RUN AI
+            </Button>
             <Button variant="text" disabled></Button>
-            <Button variant="contained" disabled>SHOW MOVEMENTS</Button>
+            <Button
+              variant="contained"
+              disabled={step !== STEP.ALIGNMENT}
+            >
+              SHOW MOVEMENTS
+            </Button>
           </Toolbar>
         </AppBar>
       </Box>
       <header className="App-header">
         {
-          urls.length == 0 &&
+          step === STEP.CHOOSE_FILES &&
           <div
             style={{
               cursor: "pointer",
-              width: "90vw",
-              height: "80vh",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              ...fullPanelStyle
             }}
             {...getRootProps()}
           >
@@ -74,10 +106,25 @@ function App() {
             <p>Upload Your Files</p>
           </div>
         }
-        {
-          urls.length > 0 &&
-          <Viewer3D urls={urls} style={{width: "90vw", height: "80vh"}}/>
-        }
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+        }}>
+          {
+            ((step === STEP.PREVIEW) || (step === STEP.ALIGNMENT)) &&
+            <Viewer3D
+              urls={urls}
+              style={step === STEP.PREVIEW ? fullPanelStyle : halfPanelStyle}
+            />
+          }
+          {
+            step === STEP.ALIGNMENT &&
+            <Viewer3D
+              urls={urls}
+              style={halfPanelStyle}
+            />
+          }
+        </div>
         <h3>Movements Table</h3>
         <MovementsTable />
       </header>
