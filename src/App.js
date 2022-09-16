@@ -6,6 +6,8 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
 
 import MovementsTable from './MovementsTable'
 import Viewer3D from './Viewer3D';
@@ -20,6 +22,7 @@ const STEP = {
 function App() {
   const [ urls, setUrls ] = useState([]);
   const [ step, setStep ] = useState(STEP.CHOOSE_FILES);
+  const [ showMovements, setShowMovements ] = useState(false);
 
   const onDropFiles = useCallback(files => {
     const urls = files.map(file => URL.createObjectURL(file));
@@ -38,6 +41,14 @@ function App() {
   const onClickAlignmentButton = () => {
     // TODO
     setStep(STEP.ALIGNMENT);
+  };
+
+  const onClickMovementsButton = () => {
+    setShowMovements(true);
+  };
+
+  const onMovementsClose = () => {
+    setShowMovements(false);
   };
 
   const fullPanelStyle = {
@@ -83,6 +94,7 @@ function App() {
             <Button
               variant="contained"
               disabled={step !== STEP.ALIGNMENT}
+              onClick={onClickMovementsButton}
             >
               SHOW MOVEMENTS
             </Button>
@@ -125,8 +137,13 @@ function App() {
             />
           }
         </div>
-        <h3>Movements Table</h3>
-        <MovementsTable />
+        <Dialog
+          onClose={onMovementsClose}
+          open={showMovements}
+        >
+          <DialogTitle>Movements Table</DialogTitle>
+          <MovementsTable />
+        </Dialog>
       </header>
     </div>
   );

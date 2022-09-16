@@ -30,7 +30,7 @@ const rows = [
 export default function DenseTable() {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+      <Table sx={{ minWidth: 750 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
             <TableCell>Movement</TableCell>
