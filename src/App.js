@@ -20,14 +20,15 @@ const STEP = {
 };
 
 function App() {
-  const [ urls, setUrls ] = useState([]);
+  const [ initialUrls, setInitialUrls ] = useState([]);
+  const [ alignmentUrls, setAlignmentUrls ] = useState([]);
   const [ step, setStep ] = useState(STEP.CHOOSE_FILES);
   const [ showMovements, setShowMovements ] = useState(false);
 
   const onDropFiles = useCallback(files => {
     const urls = files.map(file => URL.createObjectURL(file));
 
-    setUrls(urls);
+    setInitialUrls(urls);
     setStep(STEP.PREVIEW);
   }, []);
 
@@ -41,6 +42,8 @@ function App() {
   const onClickAlignmentButton = () => {
     // TODO
     setStep(STEP.ALIGNMENT);
+    // TODO
+    setAlignmentUrls(initialUrls);
   };
 
   const onClickMovementsButton = () => {
@@ -125,14 +128,14 @@ function App() {
           {
             ((step === STEP.PREVIEW) || (step === STEP.ALIGNMENT)) &&
             <Viewer3D
-              urls={urls}
+              urls={initialUrls}
               style={step === STEP.PREVIEW ? fullPanelStyle : halfPanelStyle}
             />
           }
           {
             step === STEP.ALIGNMENT &&
             <Viewer3D
-              urls={urls}
+              urls={alignmentUrls}
               style={halfPanelStyle}
             />
           }
