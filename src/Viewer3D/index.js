@@ -4,6 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import { PCFSoftShadowMap } from "three";
 
 import SceneSetup from "./SceneSetup";
+import Loading from "../Loading";
 
 const Viewer3D = ({ urls, style = {} }) => {
   const [sceneReady, setSceneReady] = useState(false);
@@ -21,8 +22,21 @@ const Viewer3D = ({ urls, style = {} }) => {
   };
 
   return (
-    <div style={style}>
-      <Suspense fallback={null}>
+    <div style={{
+      position: "relative",
+      ...style
+    }}>
+      <Suspense fallback={
+        <Loading
+          style={{
+            margin: "auto",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+      }>
         <Canvas
           key={urls.join()}
           shadows
