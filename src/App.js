@@ -62,7 +62,40 @@ const INITIAL_COLORS = [
   "#787878",
   "#787878",
 ];
-const ALIGNMENT_COLORS = Array(ALIGNMENT_NAMES.length).fill("#787878");
+const ALIGNMENT_COLORS = [
+  // Upper
+  "#1f77b4",
+  "#aec7e8",
+  "#ff7f0e",
+  "#ffbb78",
+  "#2ca02c",
+  "#98df8a",
+  "#d62728",
+  "#ff9896",
+  "#9467bd",
+  "#c5b0d5",
+  "#8c564b",
+  "#c49c94",
+  "#e377c2",
+  "#f7b6d2",
+  "#7f7f7f",
+  // Lower
+  "#1f77b4",
+  "#7f7f7f",
+  "#f7b6d2",
+  "#e377c2",
+  "#c49c94",
+  "#8c564b",
+  "#c5b0d5",
+  "#9467bd",
+  "#ff9896",
+  "#d62728",
+  "#98df8a",
+  "#2ca02c",
+  "#ffbb78",
+  "#ff7f0e",
+  "#aec7e8",
+]
 
 function App() {
   const [ initialUrls, setInitialUrls ] = useState([]);
