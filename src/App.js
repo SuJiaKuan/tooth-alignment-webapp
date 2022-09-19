@@ -23,14 +23,46 @@ const STEP = {
   FINISH_ALIGNMENT: "finish alignment",
 };
 
+const CONTENT_HOST = "http://localhost:8080"
+
+const ALIGNMENT_NAMES = [
+  "upperGingiva.stl",
+  "1.7.stl",
+  "1.6.stl",
+  "1.5.stl",
+  "1.4.stl",
+  "1.3.stl",
+  "1.2.stl",
+  "1.1.stl",
+  "2.1.stl",
+  "2.2.stl",
+  "2.3.stl",
+  "2.4.stl",
+  "2.5.stl",
+  "2.6.stl",
+  "2.7.stl",
+  "lowerGingiva.stl",
+  "3.7.stl",
+  "3.6.stl",
+  "3.5.stl",
+  "3.4.stl",
+  "3.3.stl",
+  "3.2.stl",
+  "3.1.stl",
+  "4.1.stl",
+  "4.2.stl",
+  "4.3.stl",
+  "4.4.stl",
+  "4.5.stl",
+  "4.6.stl",
+  "4.7.stl",
+]
+
 const INITIAL_COLORS = [
   "#787878",
   "#787878",
 ];
-const ALIGNMENT_COLORS = [
-  "#787878",
-  "#787878",
-];
+const ALIGNMENT_COLORS = Array(ALIGNMENT_NAMES.length).fill("#787878");
 
 function App() {
   const [ initialUrls, setInitialUrls ] = useState([]);
@@ -61,7 +93,9 @@ function App() {
     setTimeout(() => {
       setStep(STEP.FINISH_ALIGNMENT);
       // TODO
-      setAlignmentUrls(initialUrls);
+      setAlignmentUrls(ALIGNMENT_NAMES.map((name) => (
+        `${CONTENT_HOST}/alignment/${name}`
+      )));
     }, 5000 + Math.random() * 3000);
   };
 
