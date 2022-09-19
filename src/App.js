@@ -14,6 +14,8 @@ import Viewer3D from './Viewer3D';
 import Loading from "./Loading";
 import './App.css';
 
+import movements from './exampleMovements';
+
 const STEP = {
   CHOOSE_FILES: "choose files",
   PREVIEW: "preview",
@@ -183,7 +185,7 @@ function App() {
           open={showMovements}
         >
           <DialogTitle>Movements Table</DialogTitle>
-          <MovementsTable />
+          <MovementsTable movements={movements} />
         </Dialog>
       </header>
     </div>
