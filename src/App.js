@@ -14,7 +14,7 @@ import Viewer3D from './Viewer3D';
 import Loading from "./Loading";
 import './App.css';
 
-import movements from './exampleMovements';
+import movementsMapping from './exampleMovements';
 
 const STEP = {
   CHOOSE_FILES: "choose files",
@@ -102,6 +102,7 @@ function App() {
   const [ alignmentUrls, setAlignmentUrls ] = useState([]);
   const [ step, setStep ] = useState(STEP.CHOOSE_FILES);
   const [ showMovements, setShowMovements ] = useState(false);
+  const [ sampleName, setSampleName ] = useState("");
 
   const onDropFiles = useCallback(files => {
     if (files.length !== 2) return;
@@ -110,6 +111,7 @@ function App() {
 
     setInitialUrls(urls);
     setStep(STEP.PREVIEW);
+    setSampleName(files[0].path.split("_")[0])
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -127,7 +129,7 @@ function App() {
       setStep(STEP.FINISH_ALIGNMENT);
       // TODO
       setAlignmentUrls(ALIGNMENT_NAMES.map((name) => (
-        `${CONTENT_HOST}/alignment/${name}`
+        `${CONTENT_HOST}/${sampleName}/${name}`
       )));
     }, 5000 + Math.random() * 3000);
   };
@@ -252,7 +254,7 @@ function App() {
           open={showMovements}
         >
           <DialogTitle>Movements Table</DialogTitle>
-          <MovementsTable movements={movements} />
+          <MovementsTable movements={movementsMapping[sampleName]} />
         </Dialog>
       </header>
     </div>
