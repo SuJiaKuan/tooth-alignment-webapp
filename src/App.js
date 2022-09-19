@@ -21,6 +21,15 @@ const STEP = {
   FINISH_ALIGNMENT: "finish alignment",
 };
 
+const INITIAL_COLORS = [
+  "#787878",
+  "#787878",
+];
+const ALIGNMENT_COLORS = [
+  "#787878",
+  "#787878",
+];
+
 function App() {
   const [ initialUrls, setInitialUrls ] = useState([]);
   const [ alignmentUrls, setAlignmentUrls ] = useState([]);
@@ -137,6 +146,7 @@ function App() {
             step !== STEP.CHOOSE_FILES &&
             <Viewer3D
               urls={initialUrls}
+              colors={INITIAL_COLORS}
               style={step === STEP.PREVIEW ? fullPanelStyle : halfPanelStyle}
             />
           }
@@ -163,6 +173,7 @@ function App() {
             step === STEP.FINISH_ALIGNMENT &&
             <Viewer3D
               urls={alignmentUrls}
+              colors={ALIGNMENT_COLORS}
               style={halfPanelStyle}
             />
           }

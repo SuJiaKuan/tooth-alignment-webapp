@@ -7,6 +7,7 @@ import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUti
 const Model3D = ({
   geometries,
   urls,
+  colors,
   position,
   scale = 1,
   visible,
@@ -86,7 +87,7 @@ const Model3D = ({
             <primitive object={geometries[index]} attach="geometry"/>
             <meshStandardMaterial
               side={DoubleSide}
-              color={"hotpink"}
+              color={colors[index]}
               opacity={visible ? 1 : 0}
             />
           </mesh>

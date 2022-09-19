@@ -16,6 +16,7 @@ const FLOOR_DISTANCE = .4
 
 const SceneSetup = ({
   urls,
+  colors,
   sceneReady,
   setToReady,
   modelProps: {
@@ -74,6 +75,7 @@ const SceneSetup = ({
       <Model3D
         geometries={geometries}
         urls={urls}
+        colors={colors}
         position={modelPosition}
         rotation={[rotationX, rotationY, rotationZ]}
         scale={scale}

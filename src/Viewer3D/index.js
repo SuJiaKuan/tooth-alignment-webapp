@@ -6,7 +6,11 @@ import { PCFSoftShadowMap } from "three";
 import SceneSetup from "./SceneSetup";
 import Loading from "../Loading";
 
-const Viewer3D = ({ urls, style = {} }) => {
+const Viewer3D = ({
+  urls,
+  colors,
+  style = {}
+}) => {
   const [sceneReady, setSceneReady] = useState(false);
 
   useEffect(() => {
@@ -45,6 +49,7 @@ const Viewer3D = ({ urls, style = {} }) => {
         >
           <SceneSetup
             urls={urls}
+            colors={colors}
             sceneReady={sceneReady}
             setToReady={setToReady}
           />
