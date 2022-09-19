@@ -11,12 +11,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import MovementsTable from './MovementsTable'
 import Viewer3D from './Viewer3D';
+import Loading from "./Loading";
 import './App.css';
 
 const STEP = {
   CHOOSE_FILES: "choose files",
   PREVIEW: "preview",
-  ALIGNMENT: "alignment",
+  REQUEST_ALIGNMENT: "request alignment",
+  FINISH_ALIGNMENT: "finish alignment",
 };
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
   const [ showMovements, setShowMovements ] = useState(false);
 
   const onDropFiles = useCallback(files => {
+    if (files.length !== 2) return;
+
     const urls = files.map(file => URL.createObjectURL(file));
 
     setInitialUrls(urls);
@@ -40,10 +44,14 @@ function App() {
   });
 
   const onClickAlignmentButton = () => {
+    setStep(STEP.REQUEST_ALIGNMENT);
+
     // TODO
-    setStep(STEP.ALIGNMENT);
-    // TODO
-    setAlignmentUrls(initialUrls);
+    setTimeout(() => {
+      setStep(STEP.FINISH_ALIGNMENT);
+      // TODO
+      setAlignmentUrls(initialUrls);
+    }, 5000 + Math.random() * 3000);
   };
 
   const onClickMovementsButton = () => {
@@ -97,7 +105,7 @@ function App() {
               <Button variant="text" disabled></Button>
               <Button
                 variant="contained"
-                disabled={step !== STEP.ALIGNMENT}
+                disabled={step !== STEP.FINISH_ALIGNMENT}
                 onClick={onClickMovementsButton}
               >
                 SHOW MOVEMENTS
@@ -126,14 +134,33 @@ function App() {
           alignItems: "center",
         }}>
           {
-            ((step === STEP.PREVIEW) || (step === STEP.ALIGNMENT)) &&
+            step !== STEP.CHOOSE_FILES &&
             <Viewer3D
               urls={initialUrls}
               style={step === STEP.PREVIEW ? fullPanelStyle : halfPanelStyle}
             />
           }
           {
-            step === STEP.ALIGNMENT &&
+            step === STEP.REQUEST_ALIGNMENT &&
+            <div
+              style={{
+                position: "relative",
+                ...halfPanelStyle
+              }}
+            >
+              <Loading
+                style={{
+                  margin: "auto",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}
+              />
+            </div>
+          }
+          {
+            step === STEP.FINISH_ALIGNMENT &&
             <Viewer3D
               urls={alignmentUrls}
               style={halfPanelStyle}
